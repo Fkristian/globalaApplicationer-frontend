@@ -37,7 +37,7 @@ export default function AllApplicants() {
             setShowAllOrOne("one")
         })
     }
-    
+
 
     function changeShowingForApp(event: any) {
         ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
