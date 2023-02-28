@@ -32,6 +32,8 @@ export default function LogIn() {
         navigate("/SignUp");
     }
 
+
+
     const handleResponse = (response : Response) => {
         if (response.ok) {
             var token = null;
@@ -73,7 +75,7 @@ export default function LogIn() {
     }
 
     function test(){
-        console.log(localStorage.getItem("access_token"))
+        console.log("test")
     }
 
     function test2(){

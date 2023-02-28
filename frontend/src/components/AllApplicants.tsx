@@ -37,14 +37,7 @@ export default function AllApplicants() {
             setShowAllOrOne("one")
         })
     }
-    // function changeShowingForApp(event: any) {
-    //     fetch('http://localhost:8088/admin/' + event.target.value).then(response => changeTheOneToShow(response.json()))
-    // }
-    // function changeShowingForApp(event: any) {
-    //     fetch('http://localhost:8088/admin/' + event.target.value, {
-    //   headers: {Authentication: 'Bearer ' + localStorage.getItem("access_token")},
-    // }).then(response => changeTheOneToShow(response.json()))
-    // }
+    
 
     function changeShowingForApp(event: any) {
         ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
