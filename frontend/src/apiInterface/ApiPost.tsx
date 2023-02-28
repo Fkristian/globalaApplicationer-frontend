@@ -3,7 +3,7 @@ function doThrow(e: any) {
 }
 
 
-const url = "https://backendjobbapp.herokuapp.com/";
+const url = "https://backendjobbapp.herokuapp.com";
 
 const ApiPost = {
 

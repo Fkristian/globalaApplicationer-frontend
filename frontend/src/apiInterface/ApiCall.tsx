@@ -2,7 +2,7 @@ function doThrow(e: Error) {
     throw e;
 }
 
-const url = "https://backendjobbapp.herokuapp.com/";
+const url = "https://backendjobbapp.herokuapp.com";
 
 interface Params {
     [key: string]: any;
