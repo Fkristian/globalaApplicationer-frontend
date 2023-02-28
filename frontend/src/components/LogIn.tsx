@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPost from "../apiInterface/ApiPost";
 import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
+import ApiCall from "../apiInterface/ApiCall";
 
 export default function LogIn() {
     const [errorMessage, setErrorMessage] = useState("")
@@ -75,7 +76,7 @@ export default function LogIn() {
     }
 
     function test(){
-        console.log("test")
+       ApiCall.test().then(response => console.log(response))
     }
 
     function test2(){
@@ -144,6 +145,15 @@ export default function LogIn() {
             >
                 {" "}
                 Create an account
+            </Button>
+            <Button
+                variant="link"
+                width="100%"
+                colorScheme="blue"
+                onClick={test}
+            >
+                {" "}
+                test
             </Button>
         </form>
     </Flex>

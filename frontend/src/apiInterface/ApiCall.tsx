@@ -46,6 +46,10 @@ const ApiCall = {
         const getQueueEndpoint = "/api/application/all";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
+    test() {
+        const getQueueEndpoint = "/api/v1/demo-Controller";
+        return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
+    },
 
 }
 
