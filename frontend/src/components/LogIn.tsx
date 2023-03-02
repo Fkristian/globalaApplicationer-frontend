@@ -17,9 +17,6 @@ export default function LogIn() {
     })
     const navigate = useNavigate();
 
-    function hold(){
-
-    }
     function handelChange(event: { target: { name: any; value: any; }; }) {
         const { name, value } = event.target;
         setFormData((prevValues) => {
@@ -34,10 +31,8 @@ export default function LogIn() {
     }
 
 
-
     const handleResponse = (response : Response) => {
         if (response.ok) {
-            var token = null;
             response.json().then((token:any) => {
                 window.localStorage.setItem('access_token', token.token)
                 ApiCallTryToken.admin().then((response:Response) => {
@@ -55,8 +50,6 @@ export default function LogIn() {
         }else if (response.status === 401){
             setErrorMessage("Wrong credentials")
         }
-
-
     };
 
     function logInAttempt() {
@@ -73,14 +66,6 @@ export default function LogIn() {
 
 
 
-    }
-
-    function test(){
-       ApiCall.test().then(response => console.log(response))
-    }
-
-    function test2(){
-        window.localStorage.setItem('access_token', "")
     }
     return(
     <Flex>
@@ -120,24 +105,6 @@ export default function LogIn() {
                 Log in
             </Button>
             <Button
-                width="100%"
-                colorScheme="blue"
-                onClick={test}
-                mb={3}
-            >
-                {" "}
-                Print token
-            </Button>
-            <Button
-                width="100%"
-                colorScheme="blue"
-                onClick={test2}
-                mb={3}
-            >
-                {" "}
-                Reset token
-            </Button>
-            <Button
                 variant="link"
                 width="100%"
                 colorScheme="blue"
@@ -145,15 +112,6 @@ export default function LogIn() {
             >
                 {" "}
                 Create an account
-            </Button>
-            <Button
-                variant="link"
-                width="100%"
-                colorScheme="blue"
-                onClick={test}
-            >
-                {" "}
-                test
             </Button>
         </form>
     </Flex>

@@ -27,11 +27,8 @@ export default function AllApplicants() {
     const navigate = useNavigate();
 
     function changeTheOneToShow(response: any) {
-        console.log(response)
-        console.log("asdasd")
         response.then((r: any) => {
-            console.log("r")
-            console.log(r)
+
             setTheOneToShow(r)
             setApplicationVersion(r.applicationStatus.version)
             setShowAllOrOne("one")
@@ -42,6 +39,7 @@ export default function AllApplicants() {
     function changeShowingForApp(event: any) {
         ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
     }
+
     const handleResponse = (response : any) => {
         setApplicants(response)
         setShowAllOrOne("all")
@@ -83,7 +81,7 @@ export default function AllApplicants() {
 
     function getAllApplicants() {
         ApiCallTryToken.getAllApplicants().then(response => handleResponse(response));
-        clearErrorMessage();
+
         setShowAllOrOne("all")
     }
 

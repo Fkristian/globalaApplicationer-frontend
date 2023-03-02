@@ -13,15 +13,6 @@ export default function LogIn() {
     function goToForm(){
         navigate("/applicantForm");
     }
-    function test(){
-        console.log(globalThis.isAdmin)
-    }
-
-
-    function test2() {
-        globalThis.isAdmin = false
-    }
-
 
     function logOut() {
         window.localStorage.setItem('access_token', "")
@@ -53,16 +44,6 @@ export default function LogIn() {
             {" "}
             Log out
         </Button>
-        <Button
-            width="100%"
-            colorScheme="blue"
-            onClick={test}
-            mb={3}
-        >
-            {" "}
-            Display
-        </Button>
-
         {globalThis.isAdmin && <Button
             width="100%"
             colorScheme="blue"

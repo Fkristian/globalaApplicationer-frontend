@@ -35,7 +35,6 @@ export default function SignUp() {
         if (response.ok) {
             response.json().then((token:any) => {
                 window.localStorage.setItem('access_token', token.token)
-                console.log(token.token)
             })
             navigate("/home");
         }else{
@@ -64,14 +63,10 @@ export default function SignUp() {
                     }
                 });
             }else{
-
-                console.log(formData)
                 setErrorMessage("Fill in all the fields")
             }
 
         }else{
-            console.log(formData)
-            console.log("asdiasd")
             setErrorMessage("Passwords dont match")
         }
 
