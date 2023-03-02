@@ -34,7 +34,7 @@ export default function Home() {
 
     return <div>
                 <Text>Welcome</Text>
-        <Button
+        {!globalThis.isAdmin && <Button
             width="100%"
             colorScheme="blue"
             onClick={goToForm}
@@ -42,7 +42,7 @@ export default function Home() {
         >
             {" "}
             Apply
-        </Button>
+        </Button>}
         <Button
             width="100%"
             colorScheme="blue"
