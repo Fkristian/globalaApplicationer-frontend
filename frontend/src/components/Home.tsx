@@ -1,32 +1,40 @@
-import Reract from "react";
 import {
     Button, Text
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
 
-export default function LogIn() {
+/**
+ * Function that displays and handles basic logic regarding the home-page
+ */
+export default function Home() {
     const navigate = useNavigate();
-    function newSide(){
-        navigate("/home");
-    }
+
+    /**
+     * Function to go to the application form
+     */
     function goToForm(){
         navigate("/applicantForm");
     }
 
+    /**
+     * Function to log out a user and navigate to log in
+     */
     function logOut() {
         window.localStorage.setItem('access_token', "")
         globalThis.isAdmin = false
         navigate("/")
     }
 
+    /**
+     * Function to go to all applicants
+     */
     function goToApplicants() {
         navigate("/all")
     }
 
     return <div>
-                <Text>Welcome to home</Text>
-        <Button
+                <Text>Welcome</Text>
+        {!globalThis.isAdmin && <Button
             width="100%"
             colorScheme="blue"
             onClick={goToForm}
@@ -34,7 +42,7 @@ export default function LogIn() {
         >
             {" "}
             Apply
-        </Button>
+        </Button>}
         <Button
             width="100%"
             colorScheme="blue"
@@ -51,7 +59,7 @@ export default function LogIn() {
             mb={3}
         >
             {" "}
-            Go to application handeler
+            Go to application handler
         </Button>}
              </div>
 };

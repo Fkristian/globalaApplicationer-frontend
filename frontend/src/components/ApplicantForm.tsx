@@ -1,5 +1,5 @@
-import Reract, {useState} from "react";
-import React, { Component }  from 'react';
+import {useState} from "react";
+import React from 'react';
 import {
     Input,
     Flex,
@@ -8,7 +8,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPostWithToken from "../apiInterface/ApiPostWithToken";
 
-
+/**
+ * Function that displays and handles logic regarding how an applicant
+ * makes an application
+ *
+ * Initiates variables to handle availability error messages, competence error messages,
+ * general error messages, the list of competences, the list of availability periods,
+ * competence information, and availability information
+ */
 export default function ApplicantForm() {
     const [avErrorMessage, setAvErrorMessage] = useState("")
     const [compErrorMessage, setCompErrorMessage] = useState("")
@@ -25,6 +32,11 @@ export default function ApplicantForm() {
     })
     const navigate = useNavigate();
 
+    /**
+     * Function to handle competence input changes
+     *
+     * @param event the competence
+     */
     function handleCompChange(event: { target: { name: any; value: any; }; }) {
         const { name, value } = event.target;
         setCompFormData((prevValues) => {
@@ -34,6 +46,12 @@ export default function ApplicantForm() {
             };
         });
     }
+
+    /**
+     * Function to handle availability input changes
+     *
+     * @param event availability period
+     */
     function handleAvChange(event: { target: { name: any; value: any; }; }) {
         const { name, value } = event.target;
         setAvFormData((prevValues) => {
@@ -44,6 +62,9 @@ export default function ApplicantForm() {
         });
     }
 
+    /**
+     * Function to add competences to the competenceArray in the correct format
+     */
     function addCompetence() {
         if(compFormData.competence === "" || compFormData.yearsOfExperience === ""){
             setCompErrorMessage("Fill in all fields")
@@ -63,6 +84,10 @@ export default function ApplicantForm() {
         }
     }
 
+    /**
+     * Function to add availability periods to the availabilityArray
+     * in the correct format
+     */
     function addAvailability() {
         if(avFormData.startDate === "" || avFormData.endDate === ""){
             setAvErrorMessage("Fill in all fields")
@@ -81,6 +106,10 @@ export default function ApplicantForm() {
             setAvailabilityArray(availabilityArray.concat(post))
         }
     }
+
+    /**
+     * Function to clear all previous inputs from a user
+     */
     function clearApplication(){
         setErrorMessage("")
         setCompErrorMessage("")
@@ -89,6 +118,10 @@ export default function ApplicantForm() {
         setAvailabilityArray([])
     }
 
+    /**
+     * Function to cancel the application process by clearing
+     * all previous inputs and navigation to the home-page
+     */
     function cancelApplication(){
         setErrorMessage("")
         setCompErrorMessage("")
@@ -98,6 +131,9 @@ export default function ApplicantForm() {
         navigate("/home");
     }
 
+    /**
+     * Function to hand in an application by making an api call to backend
+     */
     function handInApplication(){
         if(competenceArray.length < 1 || availabilityArray.length < 1){
             setErrorMessage("Add at least one competence and one availability period")
@@ -107,37 +143,46 @@ export default function ApplicantForm() {
 
             ApiPostWithToken.createApplication(application).then(response => {
                 if(typeof response === "string"){
-                    setErrorMessage(response)
+                    setErrorMessage("Something went wrong, try again later!")
                 }
                 else{
                     handleResponse(response)
                 }
             });
-            setErrorMessage("Application submitted!")
+            clearApplication()
         }
     }
 
+    /**
+     * Function to handle the response from the API call made in the handInApplication() function
+     *
+     * @param response the response
+     */
     const handleResponse = (response : Response) => {
         if (response.ok) {
-            console.log("ok");
+            setErrorMessage("Application submitted!");
         }else{
-            console.log("error" + response.status)
+            setErrorMessage("Something went wrong, try again later!")
         }
     };
 
+    /**
+     * Function to display all previous competence inputs
+     */
     const showCompetences = () => {
         const items = competenceArray.map((element, index)=>
             <div key={index}>{element['competence']} - {element['yearsOfExperience']}</div>)
         return <div>{'Added Competences and Years of Experience:'}{items}</div>
     }
 
+    /**
+     * Function to display all previous availability inputs
+     */
     const showAvailability = () => {
         const items = availabilityArray.map((element, index)=>
             <div key={index}>{element['startDate']} - {element['endDate']}</div>)
         return <div>{'Added Availability periods:'}{items}</div>
     }
-
-
 
     return(
         <VStack>

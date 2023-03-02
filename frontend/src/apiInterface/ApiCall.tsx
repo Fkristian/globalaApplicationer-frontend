@@ -1,20 +1,22 @@
+/**
+ * Function used to throw errors
+ *
+ * @param e the error to throw
+ */
 function doThrow(e: Error) {
     throw e;
 }
 
 const url = "https://backendjobbapp.herokuapp.com";
 
-interface Params {
-    [key: string]: any;
-}
-
+/**
+ * Function to make Get api calls without token
+ */
 const ApiCall = {
     apiCall(params: String) {
         return fetch(url + params, {
-            method: "GET", // HTTP method
-            //crossDomain: true,
+            method: "GET",
             headers: {
-                // HTTP headers
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Headers":
                     "Origin, X-Requested-With, Content-Type, Accept",
@@ -31,26 +33,19 @@ const ApiCall = {
             )
             .then((response) => {
                 if(response == null){
-                    console.log("Error");
+                    return "Error";
                 }else{
                     return response.json();
                 }
 
             });
     },
-    getData() {
-        const getQueueEndpoint = "/any";
-        return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
-    },
+    /**
+     * Function to get all applications via backend
+     */
     getAllApplicants() {
         const getQueueEndpoint = "/api/application/all";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
-    test() {
-        const getQueueEndpoint = "/api/v1/demo-Controller";
-        return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
-    },
-
 }
-
 export default ApiCall;

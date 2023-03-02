@@ -1,19 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {
-    Input,
     Flex,
-    Button, Text, Select, Square, VStack
+    Button, Text, VStack
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import ApiPutWithToken from "../apiInterface/ApiPutWithToken";
 import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
 import ApiPostWithToken from "../apiInterface/ApiPostWithToken";
 
+/**
+ * Function that displays and handles logic regarding how an admin can
+ * look at all applications and handle a specific application
+ *
+ * Initiates variables to handle error messages, what to show,
+ * the list of applicants, and information regarding the applicant to show
+ *
+ */
 export default function AllApplicants() {
     const [errorMessage, setErrorMessage] = useState("")
-    const [applicants, setApplicants] = useState("")
-    const [applicantsList, setApplicantsList] = useState([])
     const [showAllOrOne, setShowAllOrOne] = useState("all")
+    const [applicantsList, setApplicantsList] = useState([])
     const [theOneToSHow, setTheOneToShow] = useState({
         availabilities: [],
         email: undefined,
@@ -26,22 +32,34 @@ export default function AllApplicants() {
     const [applicationVersion, setApplicationVersion] = useState(null)
     const navigate = useNavigate();
 
+    /**
+     * Function to change the specific application to show
+     *
+     * @param response the application to show
+     */
     function changeTheOneToShow(response: any) {
         response.then((r: any) => {
-
             setTheOneToShow(r)
             setApplicationVersion(r.applicationStatus.version)
             setShowAllOrOne("one")
         })
     }
 
-
+    /**
+     * Function to get information regarding a specific application
+     *
+     * @param event the person id of the application clicked at
+     */
     function changeShowingForApp(event: any) {
         ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
     }
 
+    /**
+     * Function to handle the response from the API call made in the getAllApplicants() function
+     *
+     * @param response the response
+     */
     const handleResponse = (response : any) => {
-        setApplicants(response)
         setShowAllOrOne("all")
         const appList = response.map((element: any) => {
             if(element.applicationStatus == null) {
@@ -78,13 +96,17 @@ export default function AllApplicants() {
         setApplicantsList(appList)
     };
 
-
+    /**
+     * Function to get all applicants
+     */
     function getAllApplicants() {
         ApiCallTryToken.getAllApplicants().then(response => handleResponse(response));
-
         setShowAllOrOne("all")
     }
 
+    /**
+     * Function to decline an application
+     */
     function declineApplication() {
         const post = {
             status : "rejected",
@@ -104,10 +126,16 @@ export default function AllApplicants() {
         });
     }
 
+    /**
+     * Function to clear the displayed error message
+     */
     function clearErrorMessage() {
         setErrorMessage("")
     }
 
+    /**
+     * Function to approve an application
+     */
     function approveApplication() {
         const post = {
             status : "approved",
@@ -126,11 +154,17 @@ export default function AllApplicants() {
                 clearErrorMessage();
             }
         });
+    }
 
+    /**
+     * Function to navigate to the home-page
+     */
+    function goToHome(){
+        navigate("/home")
     }
 
     return(
-    <Flex>
+    <VStack>
         <Flex color={"red.100"}>
             <form>
                 <Text
@@ -144,14 +178,19 @@ export default function AllApplicants() {
                     {" "}
                     Get applicants
                 </Button>
+                <Button
+                    variant="link"
+                    width="100%"
+                    colorScheme="blue"
+                    onClick={goToHome}
+                >
+                    {" "}
+                    Go back
+                </Button>
             </form>
         </Flex>
-
-
-
         <VStack
             height='calc(90vh)'
-            // overflowY="scroll"
             direction="column">
             {showAllOrOne === "all" && applicantsList}
             {showAllOrOne === "one" &&
@@ -177,7 +216,7 @@ export default function AllApplicants() {
                 <Button onClick={declineApplication} color={"red"}>Decline application</Button>
             </VStack>}
         </VStack>
-    </Flex>
+    </VStack>
     )
 
 };

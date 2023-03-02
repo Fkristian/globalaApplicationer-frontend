@@ -1,21 +1,22 @@
+/**
+ * Function used to throw errors
+ *
+ * @param e the error to throw
+ */
 function doThrow(e: Error) {
     throw e;
 }
 
 const url = "https://backendjobbapp.herokuapp.com";
 
-interface Params {
-    [key: string]: any;
-}
-
+/**
+ * Function to make GET api calls with token
+ */
 const ApiCall = {
-
     apiCall(params: String) {
         return fetch(url + params, {
-            method: "GET", // HTTP method
-            //crossDomain: true,
+            method: "GET",
             headers: {
-                // HTTP headers
                 "Authorization": "Bearer " + localStorage.getItem("access_token") ,
                 "Content-Type": "application/json",
                 "Access-Control-Request-Headers":
@@ -34,18 +35,23 @@ const ApiCall = {
             )
             .then((response) => {
                 if(response == null){
-                    console.log("Error");
+                    return("Error");
                 }else{
                     return response.json();
                 }
 
             });
     },
+    /**
+     * Function to check if user is an admin via backend
+     */
     admin() {
-        const token = localStorage.getItem("access_token")
         const getQueueEndpoint = "/admin/hello";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
+    /**
+     * Function to get all applicants via backend
+     */
     getAllApplicants() {
         const getQueueEndpoint = "/admin/all";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
