@@ -18,6 +18,9 @@ import SignUp from "./components/SignUp";
 import AllApplicants from "./components/AllApplicants";
 import ApplicantForm from "./components/ApplicantForm"
 
+/**
+ * Variable used for logic regarding admins and regular users
+ */
 declare global {
   var isAdmin: Boolean;
 }
@@ -29,9 +32,7 @@ export const App = () => (
           <VStack spacing={8}>
             <Router>
               <Routes>
-
                 <Route path="/" element={<LogIn />}/>
-
                 <Route path="/all" element={<AllApplicants />}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>

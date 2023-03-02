@@ -1,3 +1,8 @@
+/**
+ * Function used to throw errors
+ *
+ * @param e the error to throw
+ */
 function doThrow(e: any) {
   throw e;
 }
@@ -5,13 +10,14 @@ function doThrow(e: any) {
 
 const url = "https://backendjobbapp.herokuapp.com";
 
+/**
+ * Function to make POST api calls with token
+ */
 const ApiPost = {
-
   apiCall(params: string, object: any) : Promise<any> {
 
       return fetch(url + params, {
-      method: "POST", // HTTP method
-      //crossDomain: true,
+      method: "POST",
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("access_token") ,
           "Content-Type": "application/json",
@@ -25,18 +31,16 @@ const ApiPost = {
         .then((response: Response) => {
 
         if(response.status === 200){
-           // ("Logged in successfully")
             return response;
         }
         else if(response.status === 401){
             return response;
         }
         else if(response.status === 409){
-           //"Username already exists"
             return "Username already exists";
         }
         else if(response == null){
-            console.log("Error");
+            return "Error";
         }else{
             doThrow(
                 new Error(
@@ -47,10 +51,16 @@ const ApiPost = {
 
         });
       },
+    /**
+     * Function to create an application via backend
+     */
     createApplication(object: any) : Promise<any> {
         const postQueueEndpoint = "/api/application/post";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
     },
+    /**
+     * Function to get information regarding a specific application via backend
+     */
     specificApplication(object: any) : Promise<any> {
         const postQueueEndpoint = "/admin/specificApplication";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);

@@ -1,4 +1,4 @@
-import Reract, {useState} from "react";
+import {useState} from "react";
 import {
     Input,
     Flex,
@@ -7,6 +7,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPost from "../apiInterface/ApiPost";
 
+/**
+ * Function that displays and handles logic regarding the registration of a new user
+ *
+ * Initiates variables to handle error messages, and input registration information
+ */
 export default function SignUp() {
     const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
@@ -21,7 +26,12 @@ export default function SignUp() {
 
     const navigate = useNavigate();
 
-    function handelChange(event: { target: { name: any; value: any; }; }) {
+    /**
+     * Function that handles registration information input changes
+     *
+     * @param event the input information
+     */
+    function handleChange(event: { target: { name: any; value: any; }; }) {
         const { name, value } = event.target;
         setFormData((prevValues) => {
             return {
@@ -31,52 +41,63 @@ export default function SignUp() {
         });
     }
 
+    /**
+     * Function to handle the response from the API
+     * call in the registerAttempt() function
+     *
+     * @param response the response
+     */
     const handleResponse = (response : Response) => {
         if (response.ok) {
             response.json().then((token:any) => {
                 window.localStorage.setItem('access_token', token.token)
-                console.log(token.token)
             })
             navigate("/home");
         }else{
-            console.log("error" + response.status)
+            setErrorMessage("Something went wrong, try again!")
         }
     };
 
+    /**
+     * Function to attempt to register a user by doing an API call to backend
+     */
     function registerAttempt() {
-        if(formData.password === formData.passwordControl){
-            if((formData.firstname !== "") && formData.lastname !== "" && formData.emailaddress !== ""
-                && formData.personnumber !== ""&& formData.username !== ""&& formData.password !== ""){
-                const post = {
-                    firstname   : formData.firstname,
-                    lastname    : formData.lastname,
-                    emailaddress: formData.emailaddress,
-                    personnumber: formData.personnumber,
-                    username    :  formData.username,
-                    password    : formData.password
-
-                }
-                ApiPost.createAccount(post).then(response => {
-                    if(typeof response === "string"){
-                        setErrorMessage(response)
-                    }else{
-                        handleResponse(response)
-                    }
-                });
-            }else{
-
-                console.log(formData)
-                setErrorMessage("Fill in all the fields")
-            }
-
-        }else{
-            console.log(formData)
-            console.log("asdiasd")
+        if(formData.firstname === "" || formData.lastname === "" || formData.emailaddress === ""
+            || formData.personnumber === "" || formData.username === "" || formData.password === ""){
+            setErrorMessage("Fill in all the fields")
+        }
+        else if(formData.password !== formData.passwordControl){
             setErrorMessage("Passwords dont match")
         }
+        else if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(formData.emailaddress)){
+            setErrorMessage("Enter a valid email")
+        }
+        else if(!/^\d{8}-\d{4}$/.test(formData.personnumber)){
+            setErrorMessage("Use person number format yyyymmdd-xxxx")
+        }
+        else{
+            const post = {
+                firstname   : formData.firstname,
+                lastname    : formData.lastname,
+                emailaddress: formData.emailaddress,
+                personnumber: formData.personnumber,
+                username    :  formData.username,
+                password    : formData.password
 
+            }
+            ApiPost.createAccount(post).then(response => {
+                if(typeof response === "string"){
+                    setErrorMessage("Something went wrong, try again!")
+                }else{
+                    handleResponse(response)
+                }
+            });
+        }
     }
 
+    /**
+     * Function to go to the login page
+     */
     function goToLogin() {
         navigate("/");
     }
@@ -93,7 +114,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="text"
                         placeholder="First name"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="firstname"
                         mb={3}
                         value={formData.firstname}
@@ -104,7 +125,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="text"
                         placeholder="Last name"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="lastname"
                         mb={3}
                         value={formData.lastname}
@@ -115,7 +136,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="text"
                         placeholder="Email address"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="emailaddress"
                         mb={3}
                         value={formData.emailaddress}
@@ -126,7 +147,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="text"
                         placeholder="Person number"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="personnumber"
                         mb={3}
                         value={formData.personnumber}
@@ -137,7 +158,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="text"
                         placeholder="Username"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="username"
                         mb={3}
                         value={formData.username}
@@ -148,7 +169,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="password"
                         placeholder="Password"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="password"
                         mb={3}
                         value={formData.password}
@@ -159,7 +180,7 @@ export default function SignUp() {
                         className="LogInPage--form"
                         type="password"
                         placeholder="Confirm password"
-                        onChange={handelChange}
+                        onChange={handleChange}
                         name="passwordControl"
                         mb={3}
                         value={formData.passwordControl}

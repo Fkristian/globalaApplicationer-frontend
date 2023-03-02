@@ -1,4 +1,4 @@
-import Reract, {useState} from "react";
+import {useState} from "react";
 import {
     Input,
     Flex,
@@ -7,8 +7,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPost from "../apiInterface/ApiPost";
 import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
-import ApiCall from "../apiInterface/ApiCall";
 
+/**
+ * Function that displays and handles logic regarding the log in functionality
+ *
+ * Initiates variables to handle error messages, and input login information
+ */
 export default function LogIn() {
     const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
@@ -17,10 +21,12 @@ export default function LogIn() {
     })
     const navigate = useNavigate();
 
-    function hold(){
-
-    }
-    function handelChange(event: { target: { name: any; value: any; }; }) {
+    /**
+     * Function that handles login information input changes
+     *
+     * @param event the input information
+     */
+    function handleChange(event: { target: { name: any; value: any; }; }) {
         const { name, value } = event.target;
         setFormData((prevValues) => {
             return {
@@ -29,15 +35,22 @@ export default function LogIn() {
             };
         });
     }
+
+    /**
+     * Function to go to the registration page
+     */
     function goToCreateAccount() {
         navigate("/SignUp");
     }
 
-
-
+    /**
+     * Function to handle the response from the API
+     * call in the logInAttempt() function
+     *
+     * @param response the response
+     */
     const handleResponse = (response : Response) => {
         if (response.ok) {
-            var token = null;
             response.json().then((token:any) => {
                 window.localStorage.setItem('access_token', token.token)
                 ApiCallTryToken.admin().then((response:Response) => {
@@ -47,18 +60,17 @@ export default function LogIn() {
                     }else{
                         globalThis.isAdmin = false
                     }
-
                 })
             })
             navigate("/home");
-
         }else if (response.status === 401){
             setErrorMessage("Wrong credentials")
         }
-
-
     };
 
+    /**
+     * Function to attempt to log in by doing an API call to backend
+     */
     function logInAttempt() {
         if(formData.password === "" || formData.username === ""){
             setErrorMessage("Fill in all fields")
@@ -66,25 +78,13 @@ export default function LogIn() {
             const post = {
                 username :  formData.username,
                 password : formData.password
-
             }
             ApiPost.logIn(post).then(response => handleResponse(response));
         }
-
-
-
     }
 
-    function test(){
-       ApiCall.test().then(response => console.log(response))
-    }
-
-    function test2(){
-        window.localStorage.setItem('access_token', "")
-    }
     return(
     <Flex>
-
         <form>
             <Text
                 color='red'> {errorMessage} </Text>
@@ -93,7 +93,7 @@ export default function LogIn() {
                     className="LogInPage--form"
                     type="text"
                     placeholder="Username"
-                    onChange={handelChange}
+                    onChange={handleChange}
                     name="username"
                     mb={3}
                     value={formData.username}
@@ -104,7 +104,7 @@ export default function LogIn() {
                     className="LogInPage--form"
                     type="password"
                     placeholder="Password"
-                    onChange={handelChange}
+                    onChange={handleChange}
                     name="password"
                     mb={3}
                     value={formData.password}
@@ -120,24 +120,6 @@ export default function LogIn() {
                 Log in
             </Button>
             <Button
-                width="100%"
-                colorScheme="blue"
-                onClick={test}
-                mb={3}
-            >
-                {" "}
-                Print token
-            </Button>
-            <Button
-                width="100%"
-                colorScheme="blue"
-                onClick={test2}
-                mb={3}
-            >
-                {" "}
-                Reset token
-            </Button>
-            <Button
                 variant="link"
                 width="100%"
                 colorScheme="blue"
@@ -146,17 +128,7 @@ export default function LogIn() {
                 {" "}
                 Create an account
             </Button>
-            <Button
-                variant="link"
-                width="100%"
-                colorScheme="blue"
-                onClick={test}
-            >
-                {" "}
-                test
-            </Button>
         </form>
     </Flex>
     )
-
 };
