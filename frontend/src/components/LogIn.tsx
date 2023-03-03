@@ -66,6 +66,15 @@ export default function LogIn() {
         }else if (response.status === 401){
             setErrorMessage("Wrong credentials")
         }
+        else if (response.status === 409){
+            setErrorMessage("User already exist")
+        }
+        else if (response.status === 500){
+            navigate("/")
+        }
+        else if (response.status === 503){
+            navigate("/")
+        }
     };
 
     /**

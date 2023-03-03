@@ -1,3 +1,5 @@
+import {useNavigate} from "react-router-dom";
+
 /**
  * Function used to throw errors
  *
@@ -7,7 +9,6 @@ function doThrow(e: any) {
   throw e;
 }
 
-
 const url = "https://backendjobbapp.herokuapp.com";
 
 /**
@@ -15,7 +16,6 @@ const url = "https://backendjobbapp.herokuapp.com";
  */
 const ApiPost = {
   apiCall(params: string, object: any) : Promise<any> {
-
       return fetch(url + params, {
       method: "POST",
       headers: {
@@ -35,11 +35,15 @@ const ApiPost = {
             return response;
         }
         else if(response.status === 409){
-            return "Username already exists";
+            return response;
         }
-        else if(response == null){
-            return "Error";
-        }else{
+        else if(response.status === 500){
+            return response;
+        }
+        else if(response.status === 503){
+            return response;
+        }
+        else {
             doThrow(
                 new Error(
                     "Status was: " + response.statusText + " " + response.status + " " + params
