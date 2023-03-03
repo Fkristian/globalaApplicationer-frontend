@@ -64,15 +64,6 @@ export default function LogIn() {
             })
             navigate("/home");
         }
-        else if (response.status === 401 || response.status === 403){
-            setErrorMessage("Wrong credentials")
-        }
-        else if(response.status === 500 || response.status === 503){
-            navigate("/errorpage")
-        }
-        else if(response.status !== 200){
-            navigate("/errorpage")
-        }
     };
 
     /**
@@ -87,27 +78,30 @@ export default function LogIn() {
                 password : formData.password
             }
             ApiPost.logIn(post).then(response => {
-                if(response.status === 500 || response.status === 503){
-                    navigate("/errorpage")
-                }else if (response.status === 403){
-                    setErrorMessage("Wrong credentials")
-                }
-                else if(response.status !== 200){
-                    navigate("/errorpage")
-                }
-                else{
+
+               
                     handleResponse(response)
-                }
+               
+
             }).catch(reason => {
                 const stringReason = reason.toString();
                 if(stringReason.search("403") !== -1){
                     setErrorMessage("Wrong credentials")
-                }else{
+                else if(stringReason.search("500") !== -1){
+                    navigate("/errorpage")
+                }
+				 else if(stringReason.search("503") !== -1){
+                    navigate("/errorpage")
+                }
+				}else{
                     setErrorMessage("Something went wrong, please try again later")
                 }
 
 
             });
+
+           
+
         }
     }
 
