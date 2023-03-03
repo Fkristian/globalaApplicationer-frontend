@@ -42,6 +42,8 @@ const ApiCall = {
             .then((response: Response) => {
                 if (response.status === 200)
                      return response;
+                else if (response.status === 403)
+                    return "error"
                 else
                     return response.json();
             })
