@@ -1,11 +1,15 @@
+
 /**
  * Function used to throw errors
  *
  * @param e the error to throw
  */
+/*
 function doThrow(e: Error) {
     throw e;
 }
+
+ */
 
 const url = "https://backendjobbapp.herokuapp.com";
 
@@ -24,6 +28,7 @@ const ApiCall = {
                 +   "Content-Type, Accept",
             },
         })
+            /*
             .then((response: Response) =>
                 response.status === 200
                     ? response
@@ -33,6 +38,11 @@ const ApiCall = {
                         )
                     )
             )
+            */
+            .then((response: Response) => {
+                if (response.status === 200)
+                     return response;
+            })
             .then((response) => {
                 if(response == null){
                     return("Error");
