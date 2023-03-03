@@ -85,7 +85,8 @@ export default function SignUp() {
                 password    : formData.password
 
             }
-            ApiPost.createAccount(post).then(response => {
+
+            ApiPost.createAccount(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
                 if(response.status === 409){
                     setErrorMessage("Username already taken!")
                 }
