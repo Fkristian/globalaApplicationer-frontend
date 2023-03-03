@@ -8,7 +8,7 @@ This Readme file contains information related to initilization, installation and
 
 To setup the application in the chosen IDE the required frameworks, dev-tools and dependencies are obtained by running the command:
 
-npm install
+__npm install__
 
 Adding new dependencies or updating existing ones is done by changing the content of the package.json file.
 
@@ -16,7 +16,7 @@ Adding new dependencies or updating existing ones is done by changing the conten
 
 To run the front end application in development mode, it is locally hosted by running the command:
 
-npm run dev
+__npm run dev__
 
 Open http://localhost:3000 to view the application in the browser.
 
