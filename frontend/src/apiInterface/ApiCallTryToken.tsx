@@ -18,16 +18,16 @@ const url = "https://backendjobbapp.herokuapp.com";
  */
 const ApiCall = {
     apiCall(params: String) {
-        return fetch(url + params, {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("access_token") ,
-                "Content-Type": "application/json",
-                "Access-Control-Request-Headers":
-                    "Authorization, Origin, X-Requested-With, "
-                +   "Content-Type, Accept",
-            },
-        })
+            return fetch(url + params, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("access_token"),
+                    "Content-Type": "application/json",
+                    "Access-Control-Request-Headers":
+                        "Authorization, Origin, X-Requested-With, "
+                        + "Content-Type, Accept",
+                },
+            })
             /*
             .then((response: Response) =>
                 response.status === 200
@@ -42,7 +42,10 @@ const ApiCall = {
             .then((response: Response) => {
                 if (response.status === 200)
                      return response;
+                else
+                    return response.json();
             })
+                /*
             .then((response) => {
                 if(response == null){
                     return("Error");
@@ -50,7 +53,7 @@ const ApiCall = {
                     return response.json();
                 }
 
-            });
+            })*/;
     },
     /**
      * Function to check if user is an admin via backend
