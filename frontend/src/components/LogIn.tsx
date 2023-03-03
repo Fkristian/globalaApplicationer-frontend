@@ -86,10 +86,35 @@ export default function LogIn() {
                 username :  formData.username,
                 password : formData.password
             }
-            ApiPost.logIn(post).then(response => handleResponse(response)).catch(reason => setErrorMessage("Something went wrong, please try again later"));
+            ApiPost.logIn(post).then(response => {
+                if(response.status === 500 || response.status === 503){
+                    navigate("/errorpage")
+                }else if (response.status === 403){
+                    setErrorMessage("Wrong credentials")
+                }
+                else if(response.status !== 200){
+                    navigate("/errorpage")
+                }
+                else{
+                    handleResponse(response)
+                }
+            }).catch(reason => {
+                const stringReason = reason.toString();
+                if(stringReason.search("403") !== -1){
+                    setErrorMessage("Wrong credentials")
+                }else{
+                    setErrorMessage("Something went wrong, please try again later")
+                }
+
+
+            });
         }
     }
-    
+
+
+
+
+
     return(
     <Flex>
         <form>

@@ -11,6 +11,7 @@ function doThrow(e: any) {
 
 const url = "https://backendjobbapp.herokuapp.com";
 
+
 /**
  * Function to make POST api calls with token
  */
