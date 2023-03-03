@@ -22,7 +22,7 @@ Open http://localhost:3000 to view the application in the browser.
 
 ### Dependencies
 
-In order to use the front end functionality, the apllication is dependent on the backend and database parts of the full application.
+In order to use the front end functionality, the application is dependent on the backend and database parts of the full application.
 
 The backend can be found here: https://github.com/Fkristian/-globalaApplicationer-backend which also contains information regarding the database.
 
