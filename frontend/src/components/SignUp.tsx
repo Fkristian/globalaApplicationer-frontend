@@ -86,7 +86,7 @@ export default function SignUp() {
 
             }
 
-            ApiPost.createAccount(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
+            ApiPost.createAccount(post).then(response => {
                 if(response.status === 409){
                     setErrorMessage("Username already taken!")
                 }
@@ -99,7 +99,7 @@ export default function SignUp() {
                 else{
                     handleResponse(response)
                 }
-            });
+            }).catch(reason => setErrorMessage("Something went wrong, please try again later"));
         }
     }
 

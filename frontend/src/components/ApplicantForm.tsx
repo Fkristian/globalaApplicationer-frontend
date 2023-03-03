@@ -141,7 +141,7 @@ export default function ApplicantForm() {
         else{
             const application = {competenceArray, availabilityArray}
 
-            ApiPostWithToken.createApplication(application).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
+            ApiPostWithToken.createApplication(application).then(response => {
                 if(response.status === 500 || response.status === 503){
                     navigate("/errorpage")
                 }
@@ -151,7 +151,7 @@ export default function ApplicantForm() {
                 else{
                     handleResponse(response)
                 }
-            });
+            }).catch(reason => setErrorMessage("Something went wrong, please try again later"));
             clearApplication()
         }
     }
