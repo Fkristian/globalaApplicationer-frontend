@@ -144,7 +144,7 @@ export default function AllApplicants() {
             personId : theOneToSHow.personId,
             version : applicationVersion
         }
-        ApiPutWithToken.updateApplicationStatus(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
+        ApiPutWithToken.updateApplicationStatus(post).then(response => {
             if(response.status === 412){
                 setErrorMessage("Someone has already updated this application")
             }
@@ -158,7 +158,7 @@ export default function AllApplicants() {
                 getAllApplicants();
                 clearErrorMessage();
             }
-        });
+        }).catch(reason => setErrorMessage("Something went wrong, please try again later"));
     }
 
     /**
