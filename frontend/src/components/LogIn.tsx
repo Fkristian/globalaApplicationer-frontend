@@ -64,7 +64,7 @@ export default function LogIn() {
             })
             navigate("/home");
         }
-        else if (response.status === 401){
+        else if (response.status === 401 || response.status === 403){
             setErrorMessage("Wrong credentials")
         }
         else if(response.status === 500 || response.status === 503){
