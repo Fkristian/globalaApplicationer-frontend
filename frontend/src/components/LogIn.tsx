@@ -85,14 +85,14 @@ export default function LogIn() {
 
             }).catch(reason => {
                 const stringReason = reason.toString();
-                if(stringReason.search("403") !== -1){
+                if(stringReason.search("403") !== -1) {
                     setErrorMessage("Wrong credentials")
+                }
                 else if(stringReason.search("500") !== -1){
                     navigate("/errorpage")
                 }
 				 else if(stringReason.search("503") !== -1){
                     navigate("/errorpage")
-                }
 				}else{
                     setErrorMessage("Something went wrong, please try again later")
                 }
