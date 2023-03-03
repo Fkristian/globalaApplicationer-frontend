@@ -16,7 +16,8 @@ import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import AllApplicants from "./components/AllApplicants";
-import ApplicantForm from "./components/ApplicantForm"
+import ApplicantForm from "./components/ApplicantForm";
+import ErrorPage from "./components/ErrorPage"
 
 /**
  * Variable used for logic regarding admins and regular users
@@ -37,6 +38,7 @@ export const App = () => (
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>
                 <Route path="/applicantForm" element={<ApplicantForm />}/>
+                <Route path="/errorpage" element={<ErrorPage />}/>
               </Routes>
             </Router>
           </VStack>

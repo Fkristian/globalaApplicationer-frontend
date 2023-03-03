@@ -28,19 +28,7 @@ const ApiPost = {
       })
         .then((response: Response) => {
 
-        if(response.status === 200){
-            return response;
-        }
-        else if(response.status === 401){
-            return response;
-        }
-        else if(response.status === 409){
-            return response;
-        }
-        else if(response.status === 500){
-            return response;
-        }
-        else if(response.status === 503){
+        if(response.status === 200 || response.status === 401 || response.status === 409 || response.status === 500 || response.status === 503){
             return response;
         }
         else {

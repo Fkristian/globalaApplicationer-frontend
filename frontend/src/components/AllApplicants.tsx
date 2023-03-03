@@ -117,9 +117,10 @@ export default function AllApplicants() {
             if(response.status === 412){
                 setErrorMessage("Someone has already updated this application")
             }
-            else if(response.status !== 200){
-                setErrorMessage("Something went wrong")
-            }else{
+            else if(response.status === 500 || response.status === 503){
+                navigate("/errorpage")
+            }
+            else{
                 getAllApplicants();
                 clearErrorMessage();
             }
@@ -146,8 +147,11 @@ export default function AllApplicants() {
             if(response.status === 412){
                 setErrorMessage("Someone has already updated this application")
             }
+            else if(response.status === 500 || response.status === 503){
+                navigate("/errorpage")
+            }
             else if(response.status !== 200){
-                setErrorMessage("Something went wrong")
+                navigate("/errorpage")
             }
             else{
                 getAllApplicants();

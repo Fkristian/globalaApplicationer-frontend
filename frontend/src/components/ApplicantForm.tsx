@@ -142,8 +142,11 @@ export default function ApplicantForm() {
             const application = {competenceArray, availabilityArray}
 
             ApiPostWithToken.createApplication(application).then(response => {
-                if(typeof response === "string"){
-                    setErrorMessage("Something went wrong, try again later!")
+                if(response.status === 500 || response.status === 503){
+                    navigate("/errorpage")
+                }
+                else if(response.status !== 200){
+                    navigate("/errorpage")
                 }
                 else{
                     handleResponse(response)

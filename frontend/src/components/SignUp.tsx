@@ -89,11 +89,11 @@ export default function SignUp() {
                 if(response.status === 409){
                     setErrorMessage("Username already taken!")
                 }
-                else if(response.status === 500){
-                    navigate("/")
+                else if(response.status === 500 || response.status === 503){
+                    navigate("/errorpage")
                 }
-                else if(response.status === 503){
-                    navigate("/")
+                else if(response.status !== 200){
+                    navigate("/errorpage")
                 }
                 else{
                     handleResponse(response)

@@ -29,19 +29,10 @@ const ApiPost = {
       body: JSON.stringify(object),
       })
         .then((response: Response) => {
-
-        if(response.status === 200){
+        if (response.status === 200 || response.status === 409 || response.status === 500 || response.status === 503) {
             return response;
         }
-        else if(response.status === 401){
-            return response;
-        }
-        else if(response.status === 409){
-            return "Username already exists";
-        }
-        else if(response == null){
-            return "Error";
-        }else{
+        else{
             doThrow(
                 new Error(
                     "Status was: " + response.statusText + " " + response.status + " " + params

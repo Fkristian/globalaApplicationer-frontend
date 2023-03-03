@@ -22,15 +22,15 @@ const ApiCall = {
                     "Origin, X-Requested-With, Content-Type, Accept",
             },
         })
-            .then((response: Response) =>
-                response.status === 200
-                    ? response
-                    : doThrow(
-                        new Error(
-                            "Status was: " + response.statusText + " " + response.status + " " + params
-                        )
-                    )
-            )
+            .then((response: Response) => {
+                if (response.status === 200 || response.status === 500 || response.status === 503) {
+                    return response;
+                }
+                else doThrow(
+                    new Error(
+                        "Status was: " + response.statusText + " " + response.status + " " + params)
+                )
+            })
             .then((response) => {
                 if(response == null){
                     return "Error";

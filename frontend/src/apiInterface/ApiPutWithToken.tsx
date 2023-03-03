@@ -29,28 +29,16 @@ const ApiCallWithToken = {
       body: JSON.stringify(object),
       })
         .then((response: Response) => {
-
-        if(response.status === 200){
-            return response;
-        }
-        else if(response.status === 401){
-            return response;
-        }
-        else if(response.status === 409){
-            return "Username already exists";
-        }
-        else if(response.status === 412){
-             return response;
-         }
-        else if(response == null){
-            return "Error";
-        }else{
-            doThrow(
-                new Error(
-                    "Status was: " + response.statusText + " " + response.status + " " + params
+            if (response.status === 200 || response.status === 412 || response.status === 500 || response.status === 503) {
+                return response;
+            }
+            else{
+                doThrow(
+                    new Error(
+                        "Status was: " + response.statusText + " " + response.status + " " + params
+                    )
                 )
-            )
-        }
+            }
 
         });
       },
