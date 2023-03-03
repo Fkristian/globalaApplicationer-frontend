@@ -4,12 +4,6 @@
  *
  * @param e the error to throw
  */
-/*
-function doThrow(e: Error) {
-    throw e;
-}
-
- */
 
 const url = "https://backendjobbapp.herokuapp.com";
 
@@ -28,34 +22,17 @@ const ApiCall = {
                         + "Content-Type, Accept",
                 },
             })
-            /*
-            .then((response: Response) =>
-                response.status === 200
-                    ? response
-                    : doThrow(
-                        new Error(
-                            "Status was: " + response.statusText + " " + response.status + " " + params
-                        )
-                    )
-            )
-            */
             .then((response: Response) => {
                 if (response.status === 200)
                      return response;
                 else if (response.status === 403)
-                    return "error"
+                    throw Error(response.statusText);
                 else
                     return response.json();
             })
-                /*
-            .then((response) => {
-                if(response == null){
-                    return("Error");
-                }else{
-                    return response.json();
-                }
-
-            })*/;
+            .catch(function(error) {
+                console.log(error);
+            })
     },
     /**
      * Function to check if user is an admin via backend
