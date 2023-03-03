@@ -51,8 +51,9 @@ export default function AllApplicants() {
      * @param event the person id of the application clicked at
      */
     function changeShowingForApp(event: any) {
-        ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
+        ApiPostWithToken.specificApplication(event.target.value).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => changeTheOneToShow(response.json()))
     }
+
 
     /**
      * Function to handle the response from the API call made in the getAllApplicants() function
@@ -100,7 +101,7 @@ export default function AllApplicants() {
      * Function to get all applicants
      */
     function getAllApplicants() {
-        ApiCallTryToken.getAllApplicants().then(response => handleResponse(response));
+        ApiCallTryToken.getAllApplicants().catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => handleResponse(response));
         setShowAllOrOne("all")
     }
 
@@ -113,7 +114,7 @@ export default function AllApplicants() {
             personId : theOneToSHow.personId,
             version : applicationVersion
         }
-        ApiPutWithToken.updateApplicationStatus(post).then(response => {
+        ApiPutWithToken.updateApplicationStatus(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
             if(response.status === 412){
                 setErrorMessage("Someone has already updated this application")
             }
@@ -142,7 +143,7 @@ export default function AllApplicants() {
             personId : theOneToSHow.personId,
             version : applicationVersion
         }
-        ApiPutWithToken.updateApplicationStatus(post).then(response => {
+        ApiPutWithToken.updateApplicationStatus(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => {
             if(response.status === 412){
                 setErrorMessage("Someone has already updated this application")
             }

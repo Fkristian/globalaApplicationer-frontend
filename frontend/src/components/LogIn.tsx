@@ -79,7 +79,7 @@ export default function LogIn() {
                 username :  formData.username,
                 password : formData.password
             }
-            ApiPost.logIn(post).then(response => handleResponse(response));
+            ApiPost.logIn(post).catch(reason => setErrorMessage("Something went wrong, please try again later")).then(response => handleResponse(response));
         }
     }
     
