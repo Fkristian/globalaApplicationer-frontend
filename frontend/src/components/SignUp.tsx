@@ -86,9 +86,16 @@ export default function SignUp() {
 
             }
             ApiPost.createAccount(post).then(response => {
-                if(typeof response === "string"){
-                    setErrorMessage("Something went wrong, try again!")
-                }else{
+                if(response.status === 409){
+                    setErrorMessage("Username already taken!")
+                }
+                else if(response.status === 500){
+                    navigate("/")
+                }
+                else if(response.status === 503){
+                    navigate("/")
+                }
+                else{
                     handleResponse(response)
                 }
             });
